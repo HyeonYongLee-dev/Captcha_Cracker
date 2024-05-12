@@ -40,7 +40,6 @@ for file_name in file_list:
 
 
 
-
 '''
 # 이미지 로드
 img = cv2.imread("C:\\TEMP\\20240430\\04.jpg", cv2.IMREAD_COLOR)
