@@ -14,7 +14,7 @@ os.makedirs(destination_path, exist_ok=True)
 
 
 
-for i in range(50):
+for i in range(300):
     image_url = "https://seller.kshop.co.kr/jwork/authentication/viewCaptcha.do?W=263&H=54&F=50"
     file_name = "{:02d}.jpg".format(i + 1)
     final_path = destination_path + file_name

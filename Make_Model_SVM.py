@@ -3,14 +3,10 @@ import numpy as np
 from sklearn import svm, metrics, model_selection, metrics
 import joblib
 import os
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.datasets import make_moons
-
 
 
 #0~9까지의 이미지 파일을 모아 놓은 폴더(추후 전역변수로 사용할 것)
-image_paths = "C:\\TEMP\\20240509\\masked\\"
+image_paths = "D:\\업무\\trainingset\\"
 
 # 이미지 데이터를 저장할 리스트
 image_data = []
@@ -29,7 +25,7 @@ for i in range(10):
         # 이미지 로드
         img = Image.open(path)
         # 이미지를 흑백으로 변환하고 크기를 8x8로 조정
-        img = img.resize((128, 128))
+        img = img.convert('L').resize((8, 8))
         # 이미지를 numpy 배열로 변환
         img_array = np.array(img)
         # 이미지 데이터를 평평하게 펼쳐서 특징 벡터로 변환
@@ -62,10 +58,10 @@ y = custom_dataset['target']
 # y_train: 학습 세트의 레이블 데이터
 # y_test: 테스트 세트의 레이블 데이터
 
-X_train, X_test, y_train, y_test = model_selection.train_test_split(x, y, random_state = 42)
+X_train, X_test, y_train, y_test = model_selection.train_test_split(x, y, test_size=0.2)
 
 # 선형 SVM(support vector machine)분류기를 생성. 주어진 데이터를 두 개의 클래스로 분류함
-clf = RandomForestClassifier(n_estimators=5, random_state=0)
+clf = svm.LinearSVC()
 #fit 메서드를 이용하여 학습 데이터와 레이블을 학습함
 clf.fit(X_train, y_train)
 
@@ -76,4 +72,4 @@ print(f"정확도: {metrics.accuracy_score(y_test, predictionY)}")
 
 
 #학습 저장(digits.pkl 경로: 파이썬 파일이 실행되는 경로)
-joblib.dump(clf, 'randomF.pkl')
+joblib.dump(clf, 'digits.pkl')

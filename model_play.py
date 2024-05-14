@@ -1,13 +1,26 @@
-import joblib
+import os
+import urllib.request
+from datetime import datetime
 from PIL import Image
 import numpy as np
-import cv2
-import matplotlib.pyplot as plt
+import joblib
 
-image_path = "C:\\TEMP\\slice\\5.jpg"
+#오늘 날짜 객체 생성
+today = datetime.now().strftime('%Y%m%d')
+
+default_path = "C:\\python\\"
+destination_path = "C:\\TEMP\\" + today + "\\"
+
+image_url = "https://seller.kshop.co.kr/jwork/authentication/viewCaptcha.do?W=263&H=54&F=50"
+file_name = "captcha.png"
+final_path = destination_path + file_name
+urllib.request.urlretrieve(image_url, final_path)
+
+
+
 
 # 이미지 로드 및 전처리
-img = Image.open(image_path)
+img = Image.open(final_path)
 
 
 
