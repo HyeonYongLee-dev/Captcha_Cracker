@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 
-image_path = "C:\\TEMP\\slice\\5.jpg"
+image_path = "C:\\TEMP\\20240516\\run_model\\masked\\captcha.png"
 
 # 이미지 로드 및 전처리
 img = Image.open(image_path)

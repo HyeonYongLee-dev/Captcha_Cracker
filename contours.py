@@ -5,7 +5,7 @@ import imutils
 import zipfile
 from PIL import Image
 
-img = cv2.imread("C:\\TEMP\\20240509\\masked\\990024.jpg", 0)
+img = cv2.imread("C:\\TEMP\\20240516\\run_model\\masked\\captcha.png", 0)
 #plt.imshow(img, 'gray')
 
 
@@ -27,10 +27,10 @@ for i in range (4):
     plt.title(titles[i])
     plt.xticks([]), plt.yticks([])
     
-'''   
+
 plt.title("threshold")
 plt.show()
-'''
+
 #remove noise/line
 
 #kernel = np.ones((3,3), np.uint8)
