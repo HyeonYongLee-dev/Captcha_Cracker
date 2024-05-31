@@ -12,4 +12,3 @@ for i in range (10):
     each_dir = defalut_dir + str(i)
     os.listdir(each_dir)
     
-    for i

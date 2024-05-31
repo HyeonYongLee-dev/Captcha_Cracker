@@ -5,7 +5,7 @@ import imutils
 import zipfile
 from PIL import Image
 
-img = cv2.imread("C:\\TEMP\\20240516\\run_model\\masked\\captcha.png", 0)
+img = cv2.imread("C:\\TEMP\\20240522\\05.jpg", 0)
 #plt.imshow(img, 'gray')
 
 
@@ -46,10 +46,10 @@ for i in range (4):
     plt.subplot(2, 2, i + 1), plt.imshow(images2[i], 'gray')
     plt.title(titles2[i])
     plt.xticks([]), plt.yticks([])
-'''    
+  
 plt.title("dilation")
 plt.show()
-'''
+
 
 erosion = cv2.erode(dilation, kernel, iterations=1)
 erosion2 = cv2.erode(dilation2, kernel, iterations=1)
@@ -63,10 +63,10 @@ for i in range (4):
     plt.subplot(2, 2, i + 1), plt.imshow(images3[i], 'gray')
     plt.title(titles3[i])
     plt.xticks([]), plt.yticks([])
-'''
+
 plt.title("erosion")
 plt.show()
-'''
+
 
 x, y, w, h = 11, 1 , 26, 47
 for i in range(6):

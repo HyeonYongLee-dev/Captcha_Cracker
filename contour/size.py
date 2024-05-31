@@ -6,7 +6,7 @@ import numpy as np
 import joblib
 import cv2
 import shutil
-
+import matplotlib.pyplot as plt
 #오늘 날짜 객체 생성
 today = datetime.now().strftime('%Y%m%d')
 destination_path = "C:\\TEMP\\" + today + "\\" + "run_model\\"
@@ -37,7 +37,12 @@ img_mask = cv2.inRange(img, (0, 0, 0), (180, 30, 30)) # BGR로부터 흑, 백 �
 img_mask_reverse = cv2.bitwise_not(img_mask)
 #파일 저장
 img_mask_file_path = os.path.join(destination_path, file_name)
-cv2.imwrite(img_mask_file_path, img_mask_reverse)
+#이미지 최대 x축의 길이를 165까지로 설정
+cropped_image = img_mask_reverse[:, :165]
+cv2.imwrite(img_mask_file_path, cropped_image)
+
+
+
 #흑백 전환 파일 특정 폴더로 이동
 masked_finished_path = maskedfolder + file_name
 shutil.move(img_mask_file_path, masked_finished_path)
@@ -47,53 +52,16 @@ shutil.move(img_mask_file_path, masked_finished_path)
 
     
 img = cv2.imread(masked_finished_path, 0)
+
+
+
     
-x, y, w, h = 11, 1 , 26, 47
+x, y, w, h = 8, 1 , 38, 47
 for i in range(6):
+    plt.imshow(img)
+    plt.show()
     cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
     cropped_img = img[y:y+h, x:x+w]
     save_path = f"{destination_path}{i}.jpg"
     cv2.imwrite(save_path, cropped_img)
     x += w
-
-
-answer = ''
-# 이미지 로드 및 전처리
-for i in range (6):
-    save_path = f"{destination_path}{i}.jpg"    
-    img = Image.open(f"{destination_path}{i}.jpg")
-    img = img.convert('L').resize((8, 8))
-    img_array = np.array(img)
-    img_vector = img_array.flatten()
-
-    clf = joblib.load('randomF.pkl')
-    result = clf.predict([img_vector])
-    answer += str(result[0])
-
-
-
-print(answer)
-img = cv2.imread(masked_finished_path, 0)
-cv2.imshow('test', img)
-cv2.waitKey(0) 
-
-'''
-##################################
-#이미지 확인
-plt.imshow(img)
-plt.axis('off')
-plt.show()
-#################################
-'''
-
-
-
-
-
-# 학습된 모델 불러오기
-
-
-# 이미지 데이터에 대한 예측 수행
-
-
-

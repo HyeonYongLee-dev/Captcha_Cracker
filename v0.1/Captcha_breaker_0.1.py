@@ -1,11 +1,18 @@
 import os
-import urllib.request
 from datetime import datetime
 from PIL import Image
 import numpy as np
 import joblib
 import cv2
 import shutil
+import pyautogui
+from PIL import Image
+
+
+
+
+
+
 
 #오늘 날짜 객체 생성
 today = datetime.now().strftime('%Y%m%d')
@@ -15,10 +22,20 @@ destination_path = "C:\\TEMP\\" + today + "\\" + "run_model\\"
 os.makedirs(destination_path, exist_ok=True)
 
 
-image_url = "https://seller.kshop.co.kr/jwork/authentication/viewCaptcha.do?W=263&H=54&F=50"
-file_name = "captcha.png"
-final_path = destination_path + file_name
-urllib.request.urlretrieve(image_url, final_path)
+
+# 캡쳐할 영역의 좌표와 크기 지정 (left, top, width, height)
+region = (800, 432, 220, 43)
+
+# 지정된 영역을 캡쳐합니다
+screenshot = pyautogui.screenshot(region=region)
+
+# 캡쳐한 이미지를 파일로 저장합니다
+screenshot.save(destination_path + "partial_screenshot.png")
+
+
+
+
+
 
 # 폴더 생성
 maskedfolder = destination_path + "masked\\"
@@ -26,6 +43,7 @@ os.makedirs(maskedfolder, exist_ok=True)
 
 
 #각 파일 절대경로 조립 
+file_name = "partial_screenshot.png"
 final_path = os.path.join(destination_path, file_name)
 # 이미지 로드
 img = cv2.imread(final_path, cv2.IMREAD_COLOR)
@@ -46,22 +64,51 @@ shutil.move(img_mask_file_path, masked_finished_path)
 
 
     
-img = cv2.imread(masked_finished_path, 0)
-    
-x, y, w, h = 11, 1 , 26, 47
-for i in range(6):
-    cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-    cropped_img = img[y:y+h, x:x+w]
-    save_path = f"{destination_path}{i}.jpg"
-    cv2.imwrite(save_path, cropped_img)
-    x += w
+img = Image.open(masked_finished_path)
+width, height = img.size
 
+
+# box_0 = (12, 6, 34, 40) #(left, upper, right, lower)
+# box_1 = (34, 6, 49, 40) #(left, upper, right, lower)
+# box_2 = (49, 6, 69, 40) #(left, upper, right, lower)
+# box_3 = (69, 6, 89, 40) #(left, upper, right, lower)
+# box_4 = (89, 6, 105, 40) #(left, upper, right, lower)
+# box_5 = (105, 6, 124, 40) #(left, upper, right, lower)
+
+# 각 box 좌표 정의
+boxes = [
+    (12, 6, 34, 40),  # box_0
+    (34, 6, 49, 40),  # box_1
+    (49, 6, 69, 40),  # box_2
+    (69, 6, 89, 40),  # box_3
+    (89, 6, 105, 40),  # box_4
+    (105, 6, 124, 40)  # box_5
+]
+
+box_list = []
+
+# box_list에 각 box 좌표 추가
+for i in range(6):
+    box_list.append(boxes[i])
+
+
+i = 0
+
+for range in box_list:
+    cropped_image = img.crop(range)
+    cropped_image.save(f"{destination_path}{i}.jpg")
+    i += 1
+
+
+
+
+file_list = [file_name for file_name in os.listdir(destination_path) if os.path.isfile(os.path.join(destination_path, file_name))]
 
 answer = ''
 # 이미지 로드 및 전처리
-for i in range (6):
-    save_path = f"{destination_path}{i}.jpg"    
-    img = Image.open(f"{destination_path}{i}.jpg")
+
+for file in file_list :
+    img = Image.open(destination_path + file)
     img = img.convert('L').resize((8, 8))
     img_array = np.array(img)
     img_vector = img_array.flatten()
@@ -69,13 +116,11 @@ for i in range (6):
     clf = joblib.load('randomF.pkl')
     result = clf.predict([img_vector])
     answer += str(result[0])
-
+    print(result[0])
 
 
 print(answer)
-img = cv2.imread(masked_finished_path, 0)
-cv2.imshow('test', img)
-cv2.waitKey(0) 
+
 
 '''
 ##################################

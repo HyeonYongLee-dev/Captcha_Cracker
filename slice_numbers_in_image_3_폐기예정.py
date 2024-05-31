@@ -11,10 +11,27 @@ file_list = [file_name for file_name in os.listdir(masked_path) if os.path.isfil
 
 
 
+
+
+
+img = Image.open(masked_path + 'captcha.png')
+width, height = img.size
+box = (11, 6, 160, 54) #(left, upper, right, lower)
+cropped_image = img.crop(box)
+cropped_image.save(masked_path + "captcha_sliced.jpg")
+
+
+
+
+
+'''
 #각 이미지를 저장할 폴더 생성(0 ~ 9)
 for i in range(10):
     classified_Number_Folder = masked_path + f"{i}"
     os.makedirs(classified_Number_Folder, exist_ok=True)
+
+
+
 
 
 
@@ -142,3 +159,4 @@ for file_name in file_list:
     
     #다음 파일 작업을 위한 Count 증가
     file_count += 1
+'''    

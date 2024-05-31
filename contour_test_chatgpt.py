@@ -55,5 +55,5 @@ def main(image_path):
         print(f"Error: {e}")
 
 # 사용 예시
-image_path = "C:\\TEMP\\20240516\\run_model\\masked\\captcha.png"  # CAPTCHA 이미지 파일 경로
+image_path = "C:\\TEMP\\20240521\\01.jpg"  # CAPTCHA 이미지 파일 경로
 main(image_path)

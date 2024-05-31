@@ -99,7 +99,7 @@ for file_name in file_list:
         cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
         cropped_img = img[y:y+h, x:x+w]
         
-        file_number = random.randint(10000, 99999)
+        file_number = random.randint(00000, 99999)
         new_name = f"{destination_path}{i}_{file_number}.jpg"
 
 
