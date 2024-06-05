@@ -1,11 +1,10 @@
 from PIL import Image
 import numpy as np
-from sklearn import svm, metrics, model_selection, metrics
+from sklearn import metrics, model_selection, metrics
 import joblib
 import os
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.datasets import make_moons
 from sklearn.model_selection import cross_val_score
 
 

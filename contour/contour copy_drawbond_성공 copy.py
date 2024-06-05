@@ -41,11 +41,13 @@ cv2.drawContours(img_contours, contours, -1, (0, 255, 0), 1)
 
 for i, contour in enumerate(contours):
         x, y, w, h = cv2.boundingRect(contour)
-        cropped_contour = img[y:y+h, x:x+w]
-    
-        contour_file_path = os.path.join(output_dir, f'contour_{i}.png')
-        cv2.imwrite(contour_file_path, cropped_contour)
-        print(f'Contour {i}: x={x}, y={y}, width={w}, height={h}')
+        
+        if h>7 and w>10:
+            cropped_contour = img[y:y+h, x:x+w]
+        
+            contour_file_path = os.path.join(output_dir, f'contour_{i}.png')
+            cv2.imwrite(contour_file_path, cropped_contour)
+            print(f'Contour {i}: x={x}, y={y}, width={w}, height={h}')
 
 final_image_path = os.path.join(output_dir, 'contours.png')
 cv2.imwrite(final_image_path, img_contours)
@@ -69,11 +71,11 @@ k = cv2.getStructuringElement(cv2.MORPH_RECT, (2,2))
 dst = cv2.dilate(closed_image, k)
 merged = np.hstack((closed_image, dst))
 
-
+'''
 #가로선 검출
 lines = cv2.HoughLinesP(dst, 1, np.pi / 180, threshold=100, minLineLength=100, maxLineGap=7)
 
-'''
+
 # 가로선 제거
 if lines is not None:
     for line in lines:
@@ -92,6 +94,7 @@ contours, _ = cv2.findContours(closed_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_NON
 
 for i, contour in enumerate(contours):
      x, y, w, h = cv2.boundingRect(contour)
+     print(x,y,w,h)
      cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 1)
      
      

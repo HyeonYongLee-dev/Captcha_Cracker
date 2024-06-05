@@ -4,8 +4,19 @@ from matplotlib import pyplot as plt
 import imutils
 import zipfile
 from PIL import Image
+from datetime import datetime
+import os
 
-img = cv2.imread("C:\\TEMP\\20240522\\05.jpg", 0)
+
+today = datetime.now().strftime('%Y%m%d')
+destination_path = os.path.join("C:\\TEMP", today, "Training_Data")
+
+# 폴더 생성
+maskedfolder= os.path.join(destination_path, "masked")
+file_dir = os.path.join(maskedfolder, "captcha_0.jpg") 
+
+
+img = cv2.imread(file_dir, 0)
 #plt.imshow(img, 'gray')
 
 

@@ -2,9 +2,20 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import pytesseract
+from datetime import datetime
+import os
 
+#test 디렉토리
+
+
+today = datetime.now().strftime('%Y%m%d')
+destination_path = os.path.join("C:\\TEMP", today, "Training_Data")
+
+# 폴더 생성
+maskedfolder= os.path.join(destination_path, "masked")
+file_dir = os.path.join(maskedfolder, "captcha_0.jpg") 
 #이미지 input
-img = cv2.imread("C:\\TEMP\\20240522\\05.jpg")
+img = cv2.imread(file_dir)
 #RGB -> Gray
 gray= cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -19,6 +30,10 @@ gradient_image = cv2.morphologyEx(gray, cv2.MORPH_GRADIENT, kernel)
 
 #잡영 제거(adaptivethreshold)
 th = cv2.adaptiveThreshold(gradient_image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 17, 5)
+
+
+cv2.imshow("test", th)
+cv2.waitKey(0)
 
 #작은 구멍을 메우고 경계 강화(morph close)
 closed_image = cv2.morphologyEx(th, cv2.MORPH_CLOSE, kernel)
